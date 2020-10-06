@@ -41,13 +41,19 @@ public class QuizController {
     @GetMapping("/edit/{id}")
     public String editQuizForm(@PathVariable("id") Long id, Model model) {
         Quiz quiz = quizService.findQuizById(id);
-        model.addAttribute(quiz);
+        model.addAttribute("quiz", quiz);
         return "QuizEdit";
     }
 
     @PostMapping("/edit")
     public String editQuiz(Quiz quiz) {
         quizService.saveQuiz(quiz);
+        return "redirect:/";
+    }
+
+    @GetMapping("/delete/{id}")
+    public String deleteQuiz(@PathVariable("id") Long id, Model model) {
+        quizService.deleteQuizById(id);
         return "redirect:/";
     }
 }

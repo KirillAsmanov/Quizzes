@@ -1,15 +1,17 @@
 package ru.asmanov.quizzes.service;
 
+import org.springframework.stereotype.Service;
 import ru.asmanov.quizzes.model.Quiz;
 
 import java.util.List;
 
+@Service
 public interface QuizService {
-    public Quiz findQuizById(Long id);
+    Quiz findQuizById(Long id);
 
-    public List<Quiz> findAllQuizzes();
+    List<Quiz> findAllQuizzes();
 
-    public void deleteQuizById(Long id);
+    void deleteQuizById(Long id);
 
-    public void saveQuiz(Quiz quiz);
+    void saveQuiz(Quiz quiz);
 }
