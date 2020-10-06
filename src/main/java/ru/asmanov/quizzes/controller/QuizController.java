@@ -6,7 +6,9 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import ru.asmanov.quizzes.model.Question;
 import ru.asmanov.quizzes.model.Quiz;
+import ru.asmanov.quizzes.service.QuestionService;
 import ru.asmanov.quizzes.service.QuizService;
 
 import java.util.List;
@@ -14,10 +16,12 @@ import java.util.List;
 @Controller
 public class QuizController {
     private final QuizService quizService;
+    private final QuestionService questionService;
 
     @Autowired
-    public QuizController(QuizService quizService) {
+    public QuizController(QuizService quizService, QuestionService questionService) {
         this.quizService = quizService;
+        this.questionService = questionService;
     }
 
     @GetMapping("/")
@@ -49,6 +53,15 @@ public class QuizController {
     public String editQuiz(Quiz quiz) {
         quizService.saveQuiz(quiz);
         return "redirect:/";
+    }
+
+    @GetMapping("/edit/{id}/questions")
+    public String questionsOnQuizForm(@PathVariable("id") Long id, Model model) {
+        Quiz quiz = quizService.findQuizById(id);
+        List<Question> questions = questionService.findQuestionsByQuizId(id);
+        model.addAttribute("quiz", quiz);
+        model.addAttribute("questionsList", questions);
+        return "QuestionsAdd";
     }
 
     @GetMapping("/delete/{id}")

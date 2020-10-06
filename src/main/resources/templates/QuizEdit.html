@@ -12,12 +12,13 @@
             <form action="#" th:action="@{/edit}" th:object="${quiz}" method="post">
                 <input type="hidden" name="id" th:field="${quiz.id}">
                 <label for="name">Название</label>
-                <input type="text" th:field="*{name}" id="name" placeholder="Название">
+                <input type="text" th:field="*{name}" id="name" placeholder="${quiz.name}">
                 <label for="description">Описание</label>
-                <input type="text" th:field="*{description}" id="description" placeholder="${quiz.description} ?: 'Описание'">
+                <input type="text" th:field="*{description}" id="description" placeholder="${quiz.description}">
                 <input type="submit" value="Продолжить">
             </form>
         </div>
+        <a th:href="@{/edit/{id}/questions (id=${quiz.id})}">Вопросы</a>
     </div>
 </div>
 </body>

@@ -1,6 +1,7 @@
 package ru.asmanov.quizzes.service;
 
 import org.springframework.stereotype.Service;
+import ru.asmanov.quizzes.model.Question;
 import ru.asmanov.quizzes.model.Quiz;
 
 import java.util.List;

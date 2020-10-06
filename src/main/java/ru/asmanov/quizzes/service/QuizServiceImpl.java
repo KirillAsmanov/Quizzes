@@ -2,6 +2,7 @@ package ru.asmanov.quizzes.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import ru.asmanov.quizzes.model.Question;
 import ru.asmanov.quizzes.model.Quiz;
 import ru.asmanov.quizzes.repository.QuizRepository;
 

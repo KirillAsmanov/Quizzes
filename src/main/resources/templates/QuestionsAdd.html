@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Вопросы</title>
+</head>
+<body>
+<div>
+    <h2 th:text="${quiz.name}"></h2>
+</div>
+<div th:switch="${questionsList.size()}">
+    <h2 th:case="0">Пока что нет ни одного вопроса</h2>
+    <div th:case="*">
+        <h2>Список вопросов:</h2>
+        <table>
+            <thead>
+            <tr>
+                <th>Описание:</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="question : ${questionsList}">
+                <td th:text="${question.text}"></td>
+                <td>
+                    <a th:href="@{/edit/{id}(id=${quiz.id})}">Изменить</a>
+                    <a th:href="@{/delete/{id}(id=${quiz.id})}">Удалить</a>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <a href="/add">Добавить новый</a>
+</div>
+</body>
+</html>
