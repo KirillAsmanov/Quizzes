@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Изменить тест</title>
+</head>
+<body>
+<div>
+    <div>
+        <h2>Редактирование теста:</h2>
+        <div>
+            <form action="#" th:action="@{/edit}" th:object="${quiz}" method="post">
+                <input type="hidden" name="id" value="${quiz.id}">
+                <label for="name">Название</label>
+                <input type="text" th:field="*{name}" id="name" placeholder="Название">
+                <label for="description">Описание</label>
+                <input type="text" th:field="*{description}" id="description" placeholder="${quiz.description} ?: 'Описание'">
+                <input type="submit" value="Продолжить">
+            </form>
+        </div>
+    </div>
+</div>
+</body>
+</html>

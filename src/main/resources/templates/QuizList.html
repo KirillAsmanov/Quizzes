@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Quizzes</title>
+</head>
+<body>
+<div th:switch="${quizzesList}">
+    <h2 th:case="null">Пока что нет ни одного теста:( Создайте новый!</h2>
+    <div th:case="*">
+        <h2>Доступные тесты:</h2>
+        <table>
+            <thead>
+            <tr>
+                <th>Название:</th>
+                <th>Описание:</th>
+                <th>Действие:</th>
+            </tr>
+            </thead>
+            <tbody>
+                <tr th:each="quiz : ${quizzesList}">
+                    <td th:text="${quiz.name}"></td>
+                    <td th:text="${quiz.description}"></td>
+                    <td>
+                        <a th:href="@{/edit/{id}(id=${quiz.id})}">Изменить</a>
+                        <a th:href="@{/delete/{id}(id=${quiz.id})}">Удалить</a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <a href="/add">Добавить новый</a>
+</div>
+</body>
+</html>
