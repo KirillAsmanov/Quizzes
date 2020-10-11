@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Создать тест</title>
@@ -11,9 +11,13 @@
         <div>
             <form action="#" th:action="@{/add}" th:object="${quiz}" method="post">
                 <label for="name">Название</label>
+                <br>
                 <input type="text" th:field="*{name}" id="name" placeholder="Название">
+                <br>
                 <label for="description">Описание</label>
+                <br>
                 <input type="text" th:field="*{description}" id="description" placeholder="Описание">
+                <br>
                 <input type="submit" value="Продолжить">
             </form>
         </div>
