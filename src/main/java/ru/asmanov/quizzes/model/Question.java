@@ -4,6 +4,10 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -17,7 +21,16 @@ public class Question {
     @Column(name = "task")
     private String task;
 
+    @Column(name = "right_answer_id")
+    private Long rightAnswerId;
+
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "quiz_id")
     private Quiz quiz;
+
+    @ElementCollection
+    @CollectionTable(name = "answers", joinColumns = @JoinColumn(name = "question_id"))
+    @MapKeyColumn(name = "number")
+    @Column(name = "text")
+    private Map<Integer, String> answers = new HashMap<>();
 }

@@ -13,17 +13,17 @@
     <div th:case="*">
         <h2>Список вопросов:</h2>
         <table>
-            <thead>
-            <tr>
-                <th>Описание:</th>
-            </tr>
-            <tr>
-                <th>Действия:</th>
-            </tr>
-            </thead>
             <tbody>
             <tr th:each="questionFromList : ${questionsList}">
                 <td th:text="${questionFromList.task}"></td>
+                <td th:each="answer,i: ${questionFromList.answers.entrySet()}">
+                    <label>
+                        <p th:text="${answer.getValue()}"></p>
+                    </label>
+                </td>
+                <td>
+                    <p th:text="${questionFromList.rightAnswerId}"></p>
+                </td>
                 <td>
                     <a th:href="@{/edit/{quiz_id}/questions/{question_id}
                     (quiz_id=${quiz.id}, question_id=${questionFromList.id})}">Удалить</a>
@@ -37,6 +37,15 @@
             <label for="name">Введите вопрос:</label>
             <br>
             <input type="text" th:field="*{task}" id="name" placeholder="Вопрос">
+            <br>
+            <input type="radio" th:field="*{rightAnswerId}" th:value="${1}" />
+            <input type="text" th:field="*{answers[1]}" placeholder="Add Option..."/>
+            <br>
+            <input type="radio" th:field="*{rightAnswerId}" th:value="${2}" />
+            <input type="text" th:field="*{answers[2]}" placeholder="Add Option..."/>
+            <br>
+            <input type="radio" th:field="*{rightAnswerId}" th:value="${3}" />
+            <input type="text" th:field="*{answers[3]}" placeholder="Add Option..."/>
             <br>
             <input type="submit" value="Добавить вопрос">
         </form>
