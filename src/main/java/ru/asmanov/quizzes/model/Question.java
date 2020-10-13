@@ -22,7 +22,7 @@ public class Question {
     private String task;
 
     @Column(name = "right_answer_id")
-    private Long rightAnswerId;
+    private Integer rightAnswerId;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "quiz_id")

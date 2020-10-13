@@ -7,6 +7,7 @@
 <body>
 <div>
     <h2 th:text="${quiz.name}"></h2>
+    <h2 th:text="${quiz.description}"></h2>
 </div>
 <div th:switch="${questionsList.size()}">
     <h2 th:case="0">Пока что нет ни одного вопроса</h2>
@@ -39,13 +40,13 @@
             <input type="text" th:field="*{task}" id="name" placeholder="Вопрос">
             <br>
             <input type="radio" th:field="*{rightAnswerId}" th:value="${1}" />
-            <input type="text" th:field="*{answers[1]}" placeholder="Add Option..."/>
+            <input type="text" th:field="*{answers[1]}" placeholder="Вариант ответа"/>
             <br>
             <input type="radio" th:field="*{rightAnswerId}" th:value="${2}" />
-            <input type="text" th:field="*{answers[2]}" placeholder="Add Option..."/>
+            <input type="text" th:field="*{answers[2]}" placeholder="Вариант ответа"/>
             <br>
             <input type="radio" th:field="*{rightAnswerId}" th:value="${3}" />
-            <input type="text" th:field="*{answers[3]}" placeholder="Add Option..."/>
+            <input type="text" th:field="*{answers[3]}" placeholder="Вариант ответа"/>
             <br>
             <input type="submit" value="Добавить вопрос">
         </form>

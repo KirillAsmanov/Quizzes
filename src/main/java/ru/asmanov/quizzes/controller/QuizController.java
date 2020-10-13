@@ -1,5 +1,6 @@
 package ru.asmanov.quizzes.controller;
 
+import lombok.Getter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -7,13 +8,16 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import ru.asmanov.quizzes.model.PickedAnswerMapWrapper;
 import ru.asmanov.quizzes.model.Question;
 import ru.asmanov.quizzes.model.Quiz;
 import ru.asmanov.quizzes.service.QuestionService;
 import ru.asmanov.quizzes.service.QuizService;
 
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 
 @Controller
 public class QuizController {
@@ -73,6 +77,30 @@ public class QuizController {
         quizService.deleteQuizById(id);
         return "redirect:/";
     }
+
+    @GetMapping("/{id}")
+    public String testPassingStartForm(@PathVariable("id") Long id, Model model) {
+        Quiz quiz = quizService.findQuizById(id);
+        List<Question> questions = questionService.findQuestionsByQuizId(id);
+        Map<Question, Integer> pickedAnswers = new HashMap<>();
+        for (Question q : questions) {
+            pickedAnswers.put(q, 0);
+        }
+        PickedAnswerMapWrapper pickedMapWrapper = new PickedAnswerMapWrapper(pickedAnswers);
+        model.addAttribute("pickedMapWrapper", pickedMapWrapper);
+        model.addAttribute("quiz", quiz);
+        model.addAttribute("questionsList", questions);
+        return "TestPassingStart";
+    }
+
+    @PostMapping("/testSubmit")
+    public String submitResult(@ModelAttribute PickedAnswerMapWrapper pickedAnswerMapWrapper) {
+        Map<Question, Integer> pickedAnswers = pickedAnswerMapWrapper.getPickedAnswerMap();
+        pickedAnswers.forEach((q, i) -> System.out.println(q.getRightAnswerId() + " / " + i + System.lineSeparator()));
+        return "redirect:/";
+    }
+
+
 
     /* ---- Questions ----*/
 
