@@ -9,9 +9,5 @@ import java.util.Map;
 @Getter
 @Setter
 public class PickedAnswerMapWrapper {
-    private Map<Question, Integer> pickedAnswerMap;
-
-    public PickedAnswerMapWrapper(Map<Question, Integer> pickedAnswerMap) {
-        this.pickedAnswerMap = pickedAnswerMap;
-    }
+    private Map<Long, Integer> pickedAnswerMap;
 }

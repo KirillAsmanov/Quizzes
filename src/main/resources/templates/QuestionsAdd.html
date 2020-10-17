@@ -23,7 +23,7 @@
                     </label>
                 </td>
                 <td>
-                    <p th:text="${questionFromList.rightAnswerId}"></p>
+                    <p th:text="${questionFromList.rightAnswerNumber}"></p>
                 </td>
                 <td>
                     <a th:href="@{/edit/{quiz_id}/questions/{question_id}
@@ -39,13 +39,13 @@
             <br>
             <input type="text" th:field="*{task}" id="name" placeholder="Вопрос">
             <br>
-            <input type="radio" th:field="*{rightAnswerId}" th:value="${1}" />
+            <input type="radio" th:field="*{rightAnswerNumber}" th:value="${1}" />
             <input type="text" th:field="*{answers[1]}" placeholder="Вариант ответа"/>
             <br>
-            <input type="radio" th:field="*{rightAnswerId}" th:value="${2}" />
+            <input type="radio" th:field="*{rightAnswerNumber}" th:value="${2}" />
             <input type="text" th:field="*{answers[2]}" placeholder="Вариант ответа"/>
             <br>
-            <input type="radio" th:field="*{rightAnswerId}" th:value="${3}" />
+            <input type="radio" th:field="*{rightAnswerNumber}" th:value="${3}" />
             <input type="text" th:field="*{answers[3]}" placeholder="Вариант ответа"/>
             <br>
             <input type="submit" value="Добавить вопрос">

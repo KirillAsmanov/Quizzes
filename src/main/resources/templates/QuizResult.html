@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Результаты</title>
+</head>
+<body>
+<div>
+    <h4 th:text="${quiz.name}"></h4>
+    <h4 th:text="${quiz.description}"></h4>
+</div>
+<div>
+    <h4>Ваш результат:</h4>
+    <h4 th:text="${score}"></h4>
+</div>
+<table>
+    <tbody>
+    <table>
+        <tbody>
+        <tr th:each="question,i: ${resultQuestionsMap.entrySet()}">
+            <td th:text="${question.key.task}"></td>
+            <td th:text="${question.value.toString()}"></td>
+        </tr>
+        </tbody>
+    </table>
+    </tbody>
+</table>
+<div>
+    <a href="/">На главную</a>
+</div>
+</body>
+</html>

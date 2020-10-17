@@ -1,6 +1,5 @@
 package ru.asmanov.quizzes.controller;
 
-import lombok.Getter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -11,23 +10,23 @@ import org.springframework.web.bind.annotation.PostMapping;
 import ru.asmanov.quizzes.model.PickedAnswerMapWrapper;
 import ru.asmanov.quizzes.model.Question;
 import ru.asmanov.quizzes.model.Quiz;
+import ru.asmanov.quizzes.repository.AnswerMapDao;
 import ru.asmanov.quizzes.service.QuestionService;
 import ru.asmanov.quizzes.service.QuizService;
 
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Controller
 public class QuizController {
     private final QuizService quizService;
     private final QuestionService questionService;
+    private AnswerMapDao answerMapDao;
 
     @Autowired
     public QuizController(QuizService quizService, QuestionService questionService) {
         this.quizService = quizService;
         this.questionService = questionService;
+        this.answerMapDao = new AnswerMapDao();
     }
 
     /* ---- Quizzes ---- */
@@ -55,9 +54,9 @@ public class QuizController {
     @GetMapping("/edit/{id}")
     public String editQuizForm(@PathVariable("id") Long id, Model model) {
         Quiz quiz = quizService.findQuizById(id);
-        List<Question> questions = questionService.findQuestionsByQuizId(id);
+        List<Question> questionList = questionService.findQuestionsByQuizId(id);
         model.addAttribute("quiz", quiz);
-        model.addAttribute("questionsList", questions);
+        model.addAttribute("questionsList", questionList);
         return "QuizEdit";
     }
 
@@ -70,36 +69,67 @@ public class QuizController {
 
     @GetMapping("/delete/{id}")
     public String deleteQuiz(@PathVariable("id") Long id) {
-        List<Question> questions = questionService.findQuestionsByQuizId(id);
-        for (Question q : questions) {
+        List<Question> questionList = questionService.findQuestionsByQuizId(id);
+        for (Question q : questionList) {
             questionService.deleteQuestionById(q.getId());
         }
         quizService.deleteQuizById(id);
         return "redirect:/";
     }
 
+    /* ---- Passing ---- */
+
     @GetMapping("/{id}")
-    public String testPassingStartForm(@PathVariable("id") Long id, Model model) {
+    public String quizPassingForm(@PathVariable("id") Long id, Model model) {
         Quiz quiz = quizService.findQuizById(id);
-        List<Question> questions = questionService.findQuestionsByQuizId(id);
-        Map<Question, Integer> pickedAnswers = new HashMap<>();
-        for (Question q : questions) {
-            pickedAnswers.put(q, 0);
+        List<Question> questionList = questionService.findQuestionsByQuizId(id);
+        Map<Long, Integer> pickedAnswers = new HashMap<>();
+        for (Question q : questionList) {
+            pickedAnswers.put(q.getId(), 0);
         }
-        PickedAnswerMapWrapper pickedMapWrapper = new PickedAnswerMapWrapper(pickedAnswers);
+        answerMapDao.setAnswerMap(pickedAnswers);
+        PickedAnswerMapWrapper pickedMapWrapper = answerMapDao.getPickedAnswerMapWrapper();
         model.addAttribute("pickedMapWrapper", pickedMapWrapper);
         model.addAttribute("quiz", quiz);
-        model.addAttribute("questionsList", questions);
-        return "TestPassingStart";
+        model.addAttribute("questionsList", questionList);
+        return "QuizPassing";
     }
 
-    @PostMapping("/testSubmit")
-    public String submitResult(@ModelAttribute PickedAnswerMapWrapper pickedAnswerMapWrapper) {
-        Map<Question, Integer> pickedAnswers = pickedAnswerMapWrapper.getPickedAnswerMap();
-        pickedAnswers.forEach((q, i) -> System.out.println(q.getRightAnswerId() + " / " + i + System.lineSeparator()));
-        return "redirect:/";
+    @PostMapping("/{id}/submit")
+    public String submitQuizResult(@PathVariable("id") Long id,
+                                   @ModelAttribute PickedAnswerMapWrapper pickedAnswerMapWrapper) {
+        answerMapDao.setPickedAnswerMapWrapper(pickedAnswerMapWrapper);
+        return String.format("redirect:/%s/result", id);
     }
 
+    @GetMapping("/{id}/result")
+    public String quizResultPage(@PathVariable("id") Long id,
+                                 Model model) {
+        Quiz quiz = quizService.findQuizById(id);
+        List<Question> questionList = questionService.findQuestionsByQuizId(id);
+        Map<Long, Integer> pickedAnswersMap = answerMapDao.getAnswerMap();
+        Map<Question, Boolean> resultMap = new LinkedHashMap<>();
+
+        System.out.println(pickedAnswersMap);
+        
+        int rightAnswers = 0;
+
+        for (Question question : questionList) {
+            Integer pickedOption = pickedAnswersMap.get(question.getId());
+            boolean questionResult = false;
+            if (pickedOption.equals(question.getRightAnswerNumber())) {
+                questionResult = true;
+                rightAnswers++;
+            }
+            resultMap.put(question, questionResult);
+        }
+        String score = rightAnswers + "/" + questionList.size();
+
+        model.addAttribute("quiz", quiz);
+        model.addAttribute("score", score);
+        model.addAttribute("resultQuestionsMap", resultMap);
+        return "QuizResult";
+    }
 
 
     /* ---- Questions ----*/

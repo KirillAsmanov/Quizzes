@@ -5,9 +5,7 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Map;
-import java.util.Set;
 
 @Getter
 @Setter
@@ -21,8 +19,8 @@ public class Question {
     @Column(name = "task")
     private String task;
 
-    @Column(name = "right_answer_id")
-    private Integer rightAnswerId;
+    @Column(name = "right_answer_number")
+    private Integer rightAnswerNumber;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "quiz_id")
