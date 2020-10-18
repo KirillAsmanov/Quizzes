@@ -3,6 +3,7 @@ package ru.asmanov.quizzes.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -14,6 +15,7 @@ import ru.asmanov.quizzes.repository.AnswerMapDao;
 import ru.asmanov.quizzes.service.QuestionService;
 import ru.asmanov.quizzes.service.QuizService;
 
+import javax.validation.Valid;
 import java.util.*;
 
 @Controller
@@ -46,7 +48,10 @@ public class QuizController {
     }
 
     @PostMapping ("/add")
-    public String addQuiz(@ModelAttribute Quiz quiz) {
+    public String addQuiz(@ModelAttribute @Valid Quiz quiz, BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            return "QuizAdd";
+        }
         quizService.saveQuiz(quiz);
         return String.format("redirect:/edit/%s/questions", quiz.getId());
     }
@@ -61,7 +66,10 @@ public class QuizController {
     }
 
     @PostMapping("/edit")
-    public String editQuiz(Quiz quiz) {
+    public String editQuiz(@Valid Quiz quiz, BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            return "QuizEdit";
+        }
         quizService.saveQuiz(quiz);
         return String.format("redirect:/edit/%s/questions", quiz.getId());
     }
@@ -146,7 +154,11 @@ public class QuizController {
 
     @PostMapping("/edit/{quiz_id}/questions/add")
     public String addQuestion(@PathVariable("quiz_id") Long quiz_id,
-                              @ModelAttribute Question question) {
+                              @ModelAttribute @Valid Question question,
+                              BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            return String.format("redirect:/edit/%s/questions", quiz_id);
+        }
         Quiz quiz = quizService.findQuizById(quiz_id);
         question.setQuiz(quiz);
         questionService.saveQuestion(question);

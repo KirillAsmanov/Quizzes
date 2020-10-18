@@ -6,6 +6,7 @@ import lombok.Setter;
 import javax.persistence.*;
 import java.util.HashMap;
 import java.util.Map;
+import org.hibernate.validator.constraints.NotBlank;
 
 @Getter
 @Setter
@@ -16,6 +17,7 @@ public class Question {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotBlank(message = "Это поле не может быть пустым")
     @Column(name = "task")
     private String task;
 

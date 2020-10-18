@@ -13,10 +13,12 @@
                 <label for="name">Название</label>
                 <br>
                 <input type="text" th:field="*{name}" id="name" placeholder="Название">
+                <p th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Name Error</p>
                 <br>
                 <label for="description">Описание</label>
                 <br>
-                <input type="text" th:field="*{description}" id="description" placeholder="Описание">
+                <textarea type="text" rows="3" th:field="*{description}" id="description" placeholder="Описание"></textarea>
+                <p th:if="${#fields.hasErrors('description')}" th:errors="*{description}">Name Error</p>
                 <br>
                 <input type="submit" value="Продолжить">
             </form>

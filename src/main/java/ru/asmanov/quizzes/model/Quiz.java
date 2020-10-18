@@ -3,8 +3,11 @@ package ru.asmanov.quizzes.model;
 import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.validator.constraints.NotBlank;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -17,9 +20,13 @@ public class Quiz {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotNull(message = "Это поле не может быть пустым")
+    @Size(min=3, max=256, message = "Недопустимое количество символов")
     @Column(name = "name")
     private String name;
 
+    @NotNull(message = "Это поле не может быть пустым")
+    @Size(min=3, max=2000, message = "Недопустимое количество символов")
     @Column(name = "description")
     private String description;
 

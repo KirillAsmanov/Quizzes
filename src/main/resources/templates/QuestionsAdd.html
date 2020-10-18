@@ -37,7 +37,8 @@
         <form action="#" th:action="@{/edit/{quiz_id}/questions/add (quiz_id=${quiz.id})}" th:object="${question}" method="post">
             <label for="name">Введите вопрос:</label>
             <br>
-            <input type="text" th:field="*{task}" id="name" placeholder="Вопрос">
+            <textarea type="text" rows="3" th:field="*{task}" id="name" placeholder="Вопрос"></textarea>
+            <p th:if="${#fields.hasErrors('task')}" th:errors="*{task}">Name Error</p>
             <br>
             <input type="radio" th:field="*{rightAnswerNumber}" th:value="${1}" />
             <input type="text" th:field="*{answers[1]}" placeholder="Вариант ответа"/>
