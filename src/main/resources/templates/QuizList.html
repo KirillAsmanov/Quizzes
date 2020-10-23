@@ -1,36 +1,113 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="ru" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <title>Quizzes</title>
+<meta charset="utf-8">
+<title>Quizzes</title>
+<meta name="generator" content="WYSIWYG Web Builder 15 - http://www.wysiwygwebbuilder.com">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link th:href="@{/images/TEBI7-DBq-c.png}" href="../static/images/TEBI7-DBq-c.png" rel="icon" sizes="194x190" type="image/png">
+<link th:href="@{/images/TEBI7-DBq-c.png}" href="../static/images/TEBI7-DBq-c.png" rel="icon" sizes="194x190" type="image/png">
+<link th:href="@{/images/TEBI7-DBq-c.png}" href="../static/images/TEBI7-DBq-c.png" rel="icon" sizes="194x190" type="image/png">
+<link th:href="@{/css/font-awesome.min.css}" href="../static/css/font-awesome.min.css" rel="stylesheet">
+<link th:href="@{/css/GraphicArtist.css}" href="../static/css/GraphicArtist.css" rel="stylesheet">
+<link th:href="@{/css/QuizList.css}" href="../static/css/QuizList.css" rel="stylesheet">
 </head>
-<body>
-<div th:switch="${quizzesList}">
-    <h2 th:case="null">Пока что нет ни одного теста:( Создайте новый!</h2>
-    <div th:case="*">
-        <h2>Доступные тесты:</h2>
-        <table>
-            <thead>
-            <tr>
-                <th>Название:</th>
-                <th>Описание:</th>
-                <th>Действие:</th>
-            </tr>
-            </thead>
-            <tbody>
-                <tr th:each="quiz : ${quizzesList}">
-                    <td th:text="${quiz.name}"></td>
-                    <td th:text="${quiz.description}"></td>
-                    <td>
-                        <a th:href="@{/edit/{id}(id=${quiz.id})}">Изменить</a>
-                        <a th:href="@{/delete/{id}(id=${quiz.id})}">Удалить</a>
-                        <a th:href="@{/{id}(id=${quiz.id})}">Пройти</a>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
-    <a href="/add">Добавить новый</a>
-</div>
+<body onload="ShowObject('FullScreenLayer1', 0);ShowObject('FullScreenLayer2', 0);ShowObject('FullScreenLayer3', 0);return false;">
+   <div id="container">
+   </div>
+   <header id="PageHeader1">
+      <div id="PageHeader1_Container">
+         <div id="wb_Heading4">
+            <h1 id="Heading4">Quizzes</h1></div>
+         <div id="wb_CssMenu1">
+            <ul role="menubar">
+               <li class="firstmain"><a role="menuitem" href="#about" target="_self">&#1054;&nbsp;&#1087;&#1088;&#1086;&#1075;&#1088;&#1072;&#1084;&#1084;&#1077;</a>
+               </li>
+            </ul>
+         </div>
+         <div id="wb_Image1">
+            <a th:href="@{/}"><img th:src="@{/images/TEBI7-DBq-c.png}" src="../static/images/TEBI7-DBq-c.png" id="Image1" alt=""></a></div>
+      </div>
+   </header>
+   <div id="Layer1">
+      <div id="Layer1_Container">
+         <div id="wb_Heading6">
+            <h1 id="Heading6">Доступные тесты:</h1></div>
+      </div>
+   </div>
+   <div id="Layer2" class="CustomStyle">
+      <div id="RollOverLayer4" th:each="quiz : ${quizzesList}">
+         <div class="hover">
+            <div id="Layer15">
+               <div id="wb_Text7">
+                  <span style="color:#808080;font-family:Arial;font-size:27px;"><strong th:text="${quiz.name}"></strong></span></div>
+            </div>
+            <div id="Layer18">
+               <div id="wb_Text8">
+                  <span style="color:#4F4F4F;font-family:Arial;font-size:17px;" th:text="${quiz.description}"></span>
+               </div>
+            </div>
+         </div>
+         <div class="default">
+            <div id="wb_FontAwesomeIcon1">
+               <a th:href="@{/edit/{id}(id=${quiz.id})}"><div id="FontAwesomeIcon1"><i class="fa fa-pencil-square"></i></div></a></div>
+            <div id="wb_FontAwesomeIcon2">
+               <a th:href="@{/{id}(id=${quiz.id})}"><div id="FontAwesomeIcon2"><i class="fa fa-play-circle-o"></i></div></a></div>
+            <div id="wb_FontAwesomeIcon3">
+               <a th:href="@{/delete/{id}(id=${quiz.id})}"><div id="FontAwesomeIcon3"><i class="fa fa-trash"></i></div></a></div>
+         </div>
+      </div>
+      <div id="RollOverLayer1">
+         <div class="hover">
+            <div id="Layer4">
+            </div>
+            <div id="wb_IconFont1">
+               <div id="IconFont1"><a href="/add"><i class="material-icons">&#xe148;</i></a></div></div>
+         </div>
+         <div class="default">
+            <div id="wb_IconFont2">
+               <div id="IconFont2"><a href="/add"><i class="material-icons">&#xe148;</i></a></div></div>
+         </div>
+      </div>
+   </div>
+   <footer id="PageFooter1">
+   </footer>
+   <footer id="PageFooter6">
+   </footer>
+   <footer id="PageFooter7">
+   </footer>
+   <footer id="PageFooter2">
+   </footer>
+   <footer id="PageFooter3">
+   </footer>
+   <div id="wb_LayoutGrid9">
+      <div id="LayoutGrid9">
+         <div class="row">
+            <div class="col-1">
+               <div id="wb_Text9">
+                  <span style="color:#656565;font-family:Arial;font-size:16px;">© 2020 | asmanov.kir@gmail.com</span>
+               </div>
+            </div>
+            <div class="col-2">
+               <label id="Label4">Contacts:</label>
+               <div id="wb_FontAwesomeIcon5">
+                  <a href="https://github.com/KirillAsmanov"><div id="FontAwesomeIcon5"><i class="fa fa-github"></i></div></a>
+               </div>
+               <div id="wb_FontAwesomeIcon6">
+                  <a href="https://vk.com/haisst_treue"><div id="FontAwesomeIcon6"><i class="fa fa-vk"></i></div></a>
+               </div>
+               <div id="wb_FontAwesomeIcon9">
+                  <a href="https://t.me/k_real"><div id="FontAwesomeIcon9"><i class="fa fa-telegram"></i></div></a>
+               </div>
+            </div>
+         </div>
+      </div>
+   </div>
+   <footer id="PageFooter4">
+   </footer>
+   <footer id="PageFooter5">
+   </footer>
+   <script src="../static/jquery-1.12.4.min.js"></script>
+   <script src="../static/wwb15.min.js"></script>
 </body>
 </html>

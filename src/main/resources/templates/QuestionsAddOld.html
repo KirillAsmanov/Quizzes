@@ -40,7 +40,7 @@
             <textarea type="text" rows="3" th:field="*{task}" id="name" placeholder="Вопрос"></textarea>
             <p th:if="${#fields.hasErrors('task')}" th:errors="*{task}">Name Error</p>
             <br>
-            <input type="radio" th:field="*{rightAnswerNumber}" th:value="${1}" />
+            <input type="radio" th:field="*{rightAnswerNumber}" th:checked="checked" th:value="${1}"/>
             <input type="text" th:field="*{answers[1]}" placeholder="Вариант ответа"/>
             <br>
             <input type="radio" th:field="*{rightAnswerNumber}" th:value="${2}" />

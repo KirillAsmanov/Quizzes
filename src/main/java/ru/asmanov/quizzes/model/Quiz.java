@@ -21,12 +21,12 @@ public class Quiz {
     private Long id;
 
     @NotNull(message = "Это поле не может быть пустым")
-    @Size(min=3, max=256, message = "Недопустимое количество символов")
+    @Size(min=3, max=30, message = "Недопустимое количество символов")
     @Column(name = "name")
     private String name;
 
     @NotNull(message = "Это поле не может быть пустым")
-    @Size(min=3, max=2000, message = "Недопустимое количество символов")
+    @Size(min=3, max=110, message = "Недопустимое количество символов")
     @Column(name = "description")
     private String description;
 
