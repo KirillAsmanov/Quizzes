@@ -1,16 +1,16 @@
 <!doctype html>
-<html lang="ru">
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="utf-8">
 <title>Quizzes | Вопросы</title>
 <meta name="generator" content="WYSIWYG Web Builder 15 - http://www.wysiwygwebbuilder.com">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link href="TEBI7-DBq-c.png" rel="icon" sizes="194x190" type="image/png">
-<link href="TEBI7-DBq-c.png" rel="icon" sizes="194x190" type="image/png">
-<link href="TEBI7-DBq-c.png" rel="icon" sizes="194x190" type="image/png">
-<link href="font-awesome.min.css" rel="stylesheet">
-<link href="QApp.css" rel="stylesheet">
-<link href="QuestionAdd.css" rel="stylesheet">
+   <link th:href="@{/images/TEBI7-DBq-c.png}" href="../static/images/TEBI7-DBq-c.png" rel="icon" sizes="194x190" type="image/png">
+   <link th:href="@{/images/TEBI7-DBq-c.png}" href="../static/images/TEBI7-DBq-c.png" rel="icon" sizes="194x190" type="image/png">
+   <link th:href="@{/images/TEBI7-DBq-c.png}" href="../static/images/TEBI7-DBq-c.png" rel="icon" sizes="194x190" type="image/png">
+   <link th:href="@{/css/font-awesome.min.css}" href="../static/css/font-awesome.min.css" rel="stylesheet">
+   <link th:href="@{/css/QApp.css}" href="../static/css/QApp.css" rel="stylesheet">
+   <link th:href="@{/css/QuestionAdd.css}" href="../static/css/QuestionAdd.css" rel="stylesheet">
 </head>
 <body onload="ShowObject('FullScreenLayer1', 0);ShowObject('FullScreenLayer2', 0);ShowObject('FullScreenLayer3', 0);return false;">
    <div id="container">
@@ -26,7 +26,7 @@
             </ul>
          </div>
          <div id="wb_Image1">
-            <a href="#" onclick="window.location.href='./QuizList.html';return false;"><img src="images/TEBI7-DBq-c.png" id="Image1" alt=""></a></div>
+            <a th:href="@{/}"><img th:src="@{/images/TEBI7-DBq-c.png}" src="../static/images/TEBI7-DBq-c.png" id="Image1" alt=""></a></div>
       </div>
    </header>
    <div id="Layer1">
@@ -38,75 +38,58 @@
    <div id="Layer2" class="CustomStyle">
       <div id="Layer6">
          <div id="wb_Text2">
-            <span style="color:#696969;font-family:Arial;font-size:32px;"><strong>Название 1</strong></span>
+            <span style="color:#696969;font-family:Arial;font-size:32px;"><strong th:text="${quiz.name}"></strong></span>
          </div>
       </div>
       <div id="Layer4">
          <div id="wb_Text1">
-            <span style="color:#696969;font-family:Arial;font-size:27px;"><strong>Описание 1</strong></span>
+            <span style="color:#696969;font-family:Arial;font-size:27px;"><strong th:text="${quiz.description}"></strong></span>
          </div>
       </div>
       <div id="Layer5">
-         <div id="Layer10">
+         <div id="Layer10" th:each="questionFromList : ${questionsList}">
             <div id="Layer12">
                <div id="wb_Text7">
-                  <span style="color:#696969;font-family:Arial;font-size:20px;"><strong>Вопрос 1</strong></span>
+                  <span style="color:#696969;font-family:Arial;font-size:20px;"><strong th:text="${questionFromList.task}"></strong></span>
                </div>
             </div>
-            <div id="layer800">
+            <div id="layer800" th:each="answer,i: ${questionFromList.answers.entrySet()}">
                <div id="Layer13">
                   <div id="wb_IconFont1">
                      <div id="IconFont1"><i class="material-icons">&#xe86c;</i></div></div>
                </div>
                <div id="Layer14">
                   <div id="wb_Text8">
-                     <span style="color:#696969;font-family:Arial;font-size:17px;"><strong>Ответ </strong></span>
+                     <span style="color:#696969;font-family:Arial;font-size:17px;"><strong th:text="${answer.getValue()}"></strong></span>
                   </div>
                </div>
             </div>
-            <div id="Layer15">
-               <div id="Layer16">
-               </div>
-               <div id="Layer17">
-                  <div id="wb_Text10">
-                     <span style="color:#696969;font-family:Arial;font-size:17px;"><strong>Ответ </strong></span>
-                  </div>
-               </div>
-            </div>
-            <div id="Layer18">
-               <div id="Layer19">
-               </div>
-               <div id="Layer20">
-                  <div id="wb_Text11">
-                     <span style="color:#696969;font-family:Arial;font-size:17px;"><strong>Ответ </strong></span>
-                  </div>
-               </div>
-            </div>
-            <a id="Button3" href="https://www.youtube.com/watch?v=Bmq9c-iwc1Y">Удалить</a>
+            <a id="Button3" th:href="@{/edit/{quiz_id}/questions/{question_id}
+                    (quiz_id=${quiz.id}, question_id=${questionFromList.id})}">Удалить</a>
          </div>
       </div>
       <div id="Layer3">
          <div id="wb_Form1">
-            <form name="Form1" method="post" action="mailto:yourname@yourdomain.com" enctype="multipart/form-data" id="Form1" onsubmit="return submitForm1()">
+            <form name="Form1" th:action="@{/edit/{quiz_id}/questions/add (quiz_id=${quiz.id})}" th:object="${question}" method="post" enctype="multipart/form-data" id="Form1" onsubmit="return submitForm1()">
                <input type="submit" id="Button1" name="" value="Добавить">
                <input type="reset" id="Button2" name="" value="Сбросить">
                <div id="wb_RadioButton1">
-                  <input type="radio" id="RadioButton1" name="Name" value="on" checked><label for="RadioButton1"></label></div>
+                  <input th:field="*{rightAnswerNumber}" th:value="${1}" type="radio" id="RadioButton1" name="Name" value="on" checked><label for="RadioButton1"></label></div>
                <div id="wb_RadioButton2">
-                  <input type="radio" id="RadioButton2" name="Name" value="on"><label for="RadioButton2"></label></div>
+                  <input th:field="*{rightAnswerNumber}" th:value="${2}" type="radio" id="RadioButton2" name="Name" value="on"><label for="RadioButton2"></label></div>
                <div id="wb_RadioButton3">
-                  <input type="radio" id="RadioButton3" name="Name" value="on"><label for="RadioButton3"></label></div>
-               <input type="text" id="Editbox2" name="Editbox2" value="" spellcheck="false" placeholder="&#1054;&#1090;&#1074;&#1077;&#1090;">
-               <input type="text" id="Editbox3" name="Editbox2" value="" spellcheck="false" placeholder="&#1054;&#1090;&#1074;&#1077;&#1090;">
-               <input type="text" id="Editbox4" name="Editbox2" value="" spellcheck="false" placeholder="&#1054;&#1090;&#1074;&#1077;&#1090;">
-               <textarea name="TextArea1" id="TextArea1" rows="2" cols="37" spellcheck="false" placeholder="&#1042;&#1086;&#1087;&#1088;&#1086;&#1089;"></textarea>
+                  <input th:field="*{rightAnswerNumber}" th:value="${3}" type="radio" id="RadioButton3" name="Name" value="on"><label for="RadioButton3"></label></div>
+               <input th:field="*{answers[2]}" type="text" id="Editbox2" name="Editbox2" spellcheck="false" placeholder="&#1054;&#1090;&#1074;&#1077;&#1090;">
+               <input th:field="*{answers[1]}" type="text" id="Editbox3" name="Editbox2" spellcheck="false" placeholder="&#1054;&#1090;&#1074;&#1077;&#1090;">
+               <input th:field="*{answers[3]}" type="text" id="Editbox4" name="Editbox2" spellcheck="false" placeholder="&#1054;&#1090;&#1074;&#1077;&#1090;">
+               <textarea th:field="*{task}" name="TextArea1" id="TextArea1" rows="2" cols="37" spellcheck="false" placeholder="&#1042;&#1086;&#1087;&#1088;&#1086;&#1089;"></textarea>
             </form>
          </div>
       </div>
       <div id="Layer11">
          <div id="Layer11_Container">
             <hr id="DividerLine2">
-            <a id="Button4" href="https://www.youtube.com/watch?v=Bmq9c-iwc1Y">Завершить</a>
+            <a id="Button4" href="/">Завершить</a>
          </div>
       </div>
    </div>
@@ -119,16 +102,6 @@
          </div>
       </div>
    </div>
-   <footer id="PageFooter1">
-   </footer>
-   <footer id="PageFooter6">
-   </footer>
-   <footer id="PageFooter7">
-   </footer>
-   <footer id="PageFooter2">
-   </footer>
-   <footer id="PageFooter3">
-   </footer>
    <div id="wb_LayoutGrid9">
       <div id="LayoutGrid9">
          <div class="row">
@@ -138,7 +111,7 @@
                </div>
             </div>
             <div class="col-2">
-               <label for="" id="Label4">Contacts:</label>
+               <label id="Label4">Contacts:</label>
                <div id="wb_FontAwesomeIcon5">
                   <a href="https://github.com/KirillAsmanov"><div id="FontAwesomeIcon5"><i class="fa fa-github"></i></div></a>
                </div>
@@ -156,8 +129,8 @@
    </footer>
    <footer id="PageFooter5">
    </footer>
-   <script src="jquery-1.12.4.min.js"></script>
-      <script src="wwb15.min.js"></script>
-<script src="QuestionAdd.js"></script>
+   <script th:src="@{/js/jquery-1.12.4.min.js}" src="../static/js/jquery-1.12.4.min.js"></script>
+      <script th:src="@{/js/wwb15.min.js}" src="../static/js/wwb15.min.js"></script>
+<script th:src="@{/js/QuestionAdd.js}" src="../static/js/QuestionAdd.js"></script>
 </body>
 </html>

@@ -1,16 +1,16 @@
 <!doctype html>
-<html lang="ru">
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="utf-8">
 <title>Quizzes | Создание теста</title>
 <meta name="generator" content="WYSIWYG Web Builder 15 - http://www.wysiwygwebbuilder.com">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link href="TEBI7-DBq-c.png" rel="icon" sizes="194x190" type="image/png">
-<link href="TEBI7-DBq-c.png" rel="icon" sizes="194x190" type="image/png">
-<link href="TEBI7-DBq-c.png" rel="icon" sizes="194x190" type="image/png">
-<link href="font-awesome.min.css" rel="stylesheet">
-<link href="QApp.css" rel="stylesheet">
-<link href="QuizAdd.css" rel="stylesheet">
+   <link th:href="@{/images/TEBI7-DBq-c.png}" href="../static/images/TEBI7-DBq-c.png" rel="icon" sizes="194x190" type="image/png">
+   <link th:href="@{/images/TEBI7-DBq-c.png}" href="../static/images/TEBI7-DBq-c.png" rel="icon" sizes="194x190" type="image/png">
+   <link th:href="@{/images/TEBI7-DBq-c.png}" href="../static/images/TEBI7-DBq-c.png" rel="icon" sizes="194x190" type="image/png">
+   <link th:href="@{/css/font-awesome.min.css}" href="../static/css/font-awesome.min.css" rel="stylesheet">
+   <link th:href="@{/css/QApp.css}" href="../static/css/QApp.css" rel="stylesheet">
+   <link th:href="@{/css/QuizAdd.css}" href="../static/css/QuizAdd.css" rel="stylesheet">
 </head>
 <body onload="ShowObject('FullScreenLayer1', 0);ShowObject('FullScreenLayer2', 0);ShowObject('FullScreenLayer3', 0);return false;">
    <div id="container">
@@ -26,7 +26,7 @@
             </ul>
          </div>
          <div id="wb_Image1">
-            <a href="#" onclick="window.location.href='./QuizList.html';return false;"><img src="images/TEBI7-DBq-c.png" id="Image1" alt=""></a></div>
+            <a th:href="@{/}"><img th:src="@{/images/TEBI7-DBq-c.png}" src="../static/images/TEBI7-DBq-c.png" id="Image1" alt=""></a></div>
       </div>
    </header>
    <div id="Layer1">
@@ -39,28 +39,16 @@
       <div id="Layer2_Container">
          <div id="Layer3">
             <div id="wb_Form1">
-               <form name="Form1" method="post" action="mailto:yourname@yourdomain.com" enctype="multipart/form-data" id="Form1" onsubmit="return submitForm1()">
-                  <input type="text" id="Editbox1" name="Editbox1" value="" maxlength="30" spellcheck="false" placeholder="&#1053;&#1072;&#1079;&#1074;&#1072;&#1085;&#1080;&#1077;">
-                  <textarea name="TextArea1" id="TextArea1" rows="2" cols="42" maxlength="110" spellcheck="false" placeholder="&#1054;&#1087;&#1080;&#1089;&#1072;&#1085;&#1080;&#1077;"></textarea>
+               <form name="Form1" th:action="@{/add}" th:object="${quiz}" method="post" enctype="multipart/form-data" id="Form1" onsubmit="return submitForm1()">
+                  <input type="text" th:field="*{name}" id="Editbox1" name="Editbox1" value="" maxlength="30" spellcheck="false" placeholder="&#1053;&#1072;&#1079;&#1074;&#1072;&#1085;&#1080;&#1077;">
+                  <textarea name="TextArea1" th:field="*{description}" id="TextArea1" rows="2" cols="42" maxlength="110" spellcheck="false" placeholder="&#1054;&#1087;&#1080;&#1089;&#1072;&#1085;&#1080;&#1077;"></textarea>
                   <input type="submit" id="Button1" name="" value="Продолжить">
-                  <a id="Button2" href="">Назад</a>
+                  <a id="Button2" th:href="@{/}">Назад</a>
                </form>
             </div>
          </div>
       </div>
    </div>
-   <footer id="PageFooter5">
-   </footer>
-   <footer id="PageFooter1">
-   </footer>
-   <footer id="PageFooter6">
-   </footer>
-   <footer id="PageFooter7">
-   </footer>
-   <footer id="PageFooter2">
-   </footer>
-   <footer id="PageFooter3">
-   </footer>
    <div id="wb_LayoutGrid9">
       <div id="LayoutGrid9">
          <div class="row">
@@ -70,7 +58,7 @@
                </div>
             </div>
             <div class="col-2">
-               <label for="" id="Label4">Contacts:</label>
+               <label id="Label4">Contacts:</label>
                <div id="wb_FontAwesomeIcon5">
                   <a href="https://github.com/KirillAsmanov"><div id="FontAwesomeIcon5"><i class="fa fa-github"></i></div></a>
                </div>
@@ -86,8 +74,8 @@
    </div>
    <footer id="PageFooter4">
    </footer>
-   <script src="jquery-1.12.4.min.js"></script>
-      <script src="wwb15.min.js"></script>
-<script src="QuizAdd.js"></script>
+   <script th:src="@{/js/jquery-1.12.4.min.js}" src="../static/js/jquery-1.12.4.min.js"></script>
+   <script th:src="@{/js/wwb15.min.js}" src="../static/js/wwb15.min.js"></script>
+   <script th:src="@{/js/QuizAdd.js}" src="../static/js/QuizAdd.js"></script>
 </body>
 </html>
