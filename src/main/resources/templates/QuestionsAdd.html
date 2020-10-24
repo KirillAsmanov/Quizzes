@@ -56,7 +56,7 @@
             <div id="layer800" th:each="answer,i: ${questionFromList.answers.entrySet()}">
                <div id="Layer13">
                   <div id="wb_IconFont1">
-                     <div id="IconFont1"><i class="material-icons">&#xe86c;</i></div></div>
+                     <div id="IconFont1" th:if="${answer.getKey()} == ${questionFromList.rightAnswerNumber}"><i class="material-icons">&#xe86c;</i></div></div>
                </div>
                <div id="Layer14">
                   <div id="wb_Text8">
