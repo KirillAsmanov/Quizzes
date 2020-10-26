@@ -116,7 +116,7 @@ public class QuizController {
         Quiz quiz = quizService.findQuizById(id);
         List<Question> questionList = questionService.findQuestionsByQuizId(id);
         Map<Long, Integer> pickedAnswersMap = answerMapDao.getAnswerMap();
-        Map<Question, Boolean> resultMap = new LinkedHashMap<>();
+        Map<Question, Integer> resultMap = new LinkedHashMap<>();
 
         System.out.println(pickedAnswersMap);
         
@@ -124,12 +124,10 @@ public class QuizController {
 
         for (Question question : questionList) {
             Integer pickedOption = pickedAnswersMap.get(question.getId());
-            boolean questionResult = false;
             if (pickedOption.equals(question.getRightAnswerNumber())) {
-                questionResult = true;
                 rightAnswers++;
             }
-            resultMap.put(question, questionResult);
+            resultMap.put(question, pickedOption);
         }
         String score = rightAnswers + "/" + questionList.size();
 
@@ -137,38 +135,5 @@ public class QuizController {
         model.addAttribute("score", score);
         model.addAttribute("resultQuestionsMap", resultMap);
         return "QuizResult";
-    }
-
-
-    /* ---- Questions ----*/
-
-    @GetMapping("/edit/{id}/questions")
-    public String questionsOnQuizForm(@PathVariable("id") Long id, Model model) {
-        Quiz quiz = quizService.findQuizById(id);
-        List<Question> questionsList = questionService.findQuestionsByQuizId(id);
-        model.addAttribute("quiz", quiz);
-        model.addAttribute("questionsList", questionsList);
-        model.addAttribute("question", new Question());
-        return "QuestionsAdd";
-    }
-
-    @PostMapping("/edit/{quiz_id}/questions/add")
-    public String addQuestion(@PathVariable("quiz_id") Long quiz_id,
-                              @ModelAttribute @Valid Question question,
-                              BindingResult bindingResult) {
-        if (bindingResult.hasErrors()) {
-            return String.format("redirect:/edit/%s/questions", quiz_id);
-        }
-        Quiz quiz = quizService.findQuizById(quiz_id);
-        question.setQuiz(quiz);
-        questionService.saveQuestion(question);
-        return String.format("redirect:/edit/%s/questions", quiz_id);
-    }
-
-    @GetMapping("/edit/{quiz_id}/questions/{question_id}")
-    public String deleteQuestion(@PathVariable("quiz_id") Long quiz_id,
-                                 @PathVariable("question_id") Long question_id) {
-        questionService.deleteQuestionById(question_id);
-        return String.format("redirect:/edit/%s/questions", quiz_id);
     }
 }

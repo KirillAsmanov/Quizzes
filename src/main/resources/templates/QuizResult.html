@@ -1,32 +1,80 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="ru" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <title>Результаты</title>
+<meta charset="utf-8">
+<title>Quizzes | Результаты</title>
+<meta name="generator" content="WYSIWYG Web Builder 15 Trial Version - http://www.wysiwygwebbuilder.com">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <link th:href="@{/images/TEBI7-DBq-c.png}" href="../static/images/TEBI7-DBq-c.png" rel="icon" sizes="194x190" type="image/png">
+   <link th:href="@{/images/TEBI7-DBq-c.png}" href="../static/images/TEBI7-DBq-c.png" rel="icon" sizes="194x190" type="image/png">
+   <link th:href="@{/images/TEBI7-DBq-c.png}" href="../static/images/TEBI7-DBq-c.png" rel="icon" sizes="194x190" type="image/png">
+   <link th:href="@{/css/font-awesome.min.css}" href="../static/css/font-awesome.min.css" rel="stylesheet">
+   <link th:href="@{/css/QApp.css}" href="../static/css/QApp.css" rel="stylesheet">
+   <link th:href="@{/css/QuizResult.css}" href="../static/css/QuizResult.css" rel="stylesheet">
 </head>
-<body>
-<div>
-    <h4 th:text="${quiz.name}"></h4>
-    <h4 th:text="${quiz.description}"></h4>
-</div>
-<div>
-    <h4>Ваш результат:</h4>
-    <h4 th:text="${score}"></h4>
-</div>
-<table>
-    <tbody>
-    <table>
-        <tbody>
-        <tr th:each="question,i: ${resultQuestionsMap.entrySet()}">
-            <td th:text="${question.key.task}"></td>
-            <td th:text="${question.value.toString()}"></td>
-        </tr>
-        </tbody>
-    </table>
-    </tbody>
-</table>
-<div>
-    <a href="/">На главную</a>
-</div>
+<body onload="ShowObject('FullScreenLayer1', 0);ShowObject('FullScreenLayer2', 0);ShowObject('FullScreenLayer3', 0);return false;">
+   <header id="PageHeader1">
+      <div id="PageHeader1_Container">
+         <div id="wb_Heading4">
+            <h1 id="Heading4">Quizzes</h1></div>
+         <div id="wb_CssMenu1">
+            <ul role="menubar">
+               <li class="firstmain"><a role="menuitem" th:href="@{/about}" target="_self">&#1054;&nbsp;&#1087;&#1088;&#1086;&#1075;&#1088;&#1072;&#1084;&#1084;&#1077;</a>
+               </li>
+            </ul>
+         </div>
+         <div id="wb_Image1">
+            <a th:href="@{/}"><img th:src="@{/images/TEBI7-DBq-c.png}" src="../static/images/TEBI7-DBq-c.png" id="Image1" alt=""></a></div>
+      </div>
+   </header>
+   <div id="Layer1">
+      <div id="Layer1_Container">
+         <div id="wb_Heading6">
+            <h1 id="Heading6">Результаты теста:</h1></div>
+      </div>
+   </div>
+   <div id="Layer2" class="CustomStyle">
+      <div id="Layer6">
+         <div id="wb_Text2">
+            <span style="color:#696969;font-family:Arial;font-size:32px;"><strong>Ваш результат:</strong></span>
+         </div>
+      </div>
+      <div id="Layer4">
+         <div id="wb_Text1">
+            <span style="color:#696969;font-family:Arial;font-size:27px;"><strong th:text="${score}"></strong></span>
+         </div>
+      </div>
+      <div id="Layer5">
+         <div id="Layer10" th:each="answeredQuestion,i: ${resultQuestionsMap.entrySet()}">
+            <div id="Layer12">
+               <div id="wb_Text7">
+                  <span style="color:#696969;font-family:Arial;font-size:20px;"><strong th:text="${answeredQuestion.getKey().task}"></strong></span>
+               </div>
+            </div>
+            <div id="layer800" th:each="answer : ${answeredQuestion.getKey().answers.entrySet()}">
+               <div id="Layer13">
+                  <div id="wb_IconFont1" th:if="${answer.getKey()} == ${answeredQuestion.getKey().rightAnswerNumber}">
+                     <div id="IconFont1"><i class="material-icons">&#xe86c;</i></div></div>
+                  <div id="wb_IconFont2" th:if="(${answer.getKey()} == ${answeredQuestion.getValue()})">
+                     <div id="IconFont2" th:if="${answer.getKey()} != ${answeredQuestion.getKey().rightAnswerNumber}"><i class="material-icons">&#xe5c9;</i></div></div>
+               </div>
+               <div id="Layer14">
+                  <div id="wb_Text8">
+                     <span style="color:#696969;font-family:Arial;font-size:17px;"><strong th:text="${answer.getValue()}"></strong></span>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </div>
+      <div id="Layer11">
+         <div id="Layer11_Container">
+            <hr id="DividerLine2">
+            <a id="Button4" th:href="@{/}">Завершить</a>
+         </div>
+      </div>
+   </div>
+
+   <script th:src="@{/js/jquery-1.12.4.min.js}" src="../static/js/jquery-1.12.4.min.js"></script>
+   <script th:src="@{/js/wwb15.min.js}" src="../static/js/wwb15.min.js"></script>
 </body>
 </html>
