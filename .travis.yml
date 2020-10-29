@@ -1,0 +1,12 @@
+language: java
+jdk:
+  - openjdk14
+
+sudo: false
+
+notifications:
+  email:
+    recipients:
+      -mazusik1@gmail.com
+    on_success: never # default: change
+    on_failure: always # default: always
