@@ -8,6 +8,12 @@ import java.util.HashMap;
 import java.util.Map;
 import org.hibernate.validator.constraints.NotBlank;
 
+/**
+ * Question model
+ * @author Kirill Asmanov
+ * @since 16.10.2020
+ */
+
 @Getter
 @Setter
 @Entity

@@ -11,6 +11,12 @@ import javax.validation.constraints.Size;
 import java.util.HashSet;
 import java.util.Set;
 
+/**
+ * Quiz model
+ * @author Kirill Asmanov
+ * @since 16.10.2020
+ */
+
 @Entity
 @Getter
 @Setter

@@ -4,6 +4,12 @@ import ru.asmanov.quizzes.model.PickedAnswerMapWrapper;
 
 import java.util.Map;
 
+/**
+ * DAO for working with selected answers
+ * @author Kirill Asmanov
+ * @since 16.10.2020
+ */
+
 public class AnswerMapDao {
     private PickedAnswerMapWrapper pickedAnswerMapWrapper;
 
