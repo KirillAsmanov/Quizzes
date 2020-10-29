@@ -32,7 +32,6 @@ public class QuizController {
     }
 
     /* ---- Quizzes ---- */
-
     @GetMapping("/")
     public String findAllQuizzes(Model model) {
         List<Quiz> quizzesList = quizService.findAllQuizzes();

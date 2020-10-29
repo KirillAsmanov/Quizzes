@@ -74,7 +74,7 @@
                <input type="submit" id="Button1" name="" value="Добавить">
                <input type="reset" id="Button2" name="" value="Сбросить">
                <div id="wb_RadioButton1">
-                  <input th:field="*{rightAnswerNumber}" th:value="${1}" type="radio" id="RadioButton1" name="Name" value="on" checked><label for="RadioButton1"></label></div>
+                  <input th:field="*{rightAnswerNumber}" th:value="${1}" th:checked="${1 == 1}" type="radio" id="RadioButton1" name="Name" value="on" checked><label for="RadioButton1"></label></div>
                <div id="wb_RadioButton2">
                   <input th:field="*{rightAnswerNumber}" th:value="${2}" type="radio" id="RadioButton2" name="Name" value="on"><label for="RadioButton2"></label></div>
                <div id="wb_RadioButton3">
