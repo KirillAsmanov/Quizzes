@@ -17,6 +17,12 @@ import ru.asmanov.quizzes.service.QuizService;
 import javax.validation.Valid;
 import java.util.List;
 
+/**
+ * Controller containing methods for working with questions
+ * @author Kirill Asmanov
+ * @since 13.10.2020
+ */
+
 @Controller
 public class QuestionController {
     private final QuizService quizService;

@@ -18,6 +18,12 @@ import ru.asmanov.quizzes.service.QuizService;
 import javax.validation.Valid;
 import java.util.*;
 
+/**
+ * Controller containing methods for working with quizzes
+ * @author Kirill Asmanov
+ * @since 13.10.2020
+ */
+
 @Controller
 public class QuizController {
     private final QuizService quizService;
@@ -117,8 +123,6 @@ public class QuizController {
         Map<Long, Integer> pickedAnswersMap = answerMapDao.getAnswerMap();
         Map<Question, Integer> resultMap = new LinkedHashMap<>();
 
-        System.out.println(pickedAnswersMap);
-        
         int rightAnswers = 0;
 
         for (Question question : questionList) {
