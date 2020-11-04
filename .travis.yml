@@ -10,3 +10,6 @@ notifications:
       -mazusik1@gmail.com
     on_success: never # default: change
     on_failure: always # default: always
+
+before_install:
+  - chmod +x mvnw
