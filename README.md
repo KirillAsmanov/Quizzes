@@ -6,11 +6,10 @@
 ~~~~
 Стек технологий:
 
- - Spring Boot
+ - Spring Boot, MVC
  - Spring Data (JPA)
  - PostgreSQL
- - Thymeleaf
- - Html, CSS, JS
+ - Html, css, js + Thymeleaf
 ~~~~
 ##### **Возможности сервиса:**
  - Отображение всех доступных тестов;

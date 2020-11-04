@@ -1,7 +1,6 @@
    
    function submitForm1()
    {
-      var regexp;
       var Editbox2 = document.getElementById('Editbox2');
       if (!(Editbox2.disabled || Editbox2.style.display === 'none' || Editbox2.style.visibility === 'hidden'))
       {
@@ -11,7 +10,7 @@
             Editbox2.focus();
             return false;
          }
-         if (Editbox2.value.length < 3)
+         if (Editbox2.value.length < 2)
          {
             alert("Недопустимая длина ответа");
             Editbox2.focus();
@@ -27,7 +26,7 @@
             Editbox3.focus();
             return false;
          }
-         if (Editbox3.value.length < 3)
+         if (Editbox3.value.length < 2)
          {
             alert("Недопустимая длина ответа");
             Editbox3.focus();
@@ -43,7 +42,7 @@
             Editbox4.focus();
             return false;
          }
-         if (Editbox4.value.length < 3)
+         if (Editbox4.value.length < 2)
          {
             alert("Недопустимая длина ответа");
             Editbox4.focus();
