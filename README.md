@@ -1,3 +1,4 @@
+[![Build Status](https://travis-ci.org/KirillAsmanov/Quizzes.svg?branch=master)](https://travis-ci.org/KirillAsmanov/Quizzes)
 ## **Quizzes**
 
 **Quizzes - это сервис для создания, прохождения и редактирования тестов и опросов. 
