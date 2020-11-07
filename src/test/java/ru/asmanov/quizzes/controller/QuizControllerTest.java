@@ -8,10 +8,12 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
+import ru.asmanov.quizzes.model.PickedAnswer;
 import ru.asmanov.quizzes.model.Question;
 import ru.asmanov.quizzes.model.Quiz;
 import ru.asmanov.quizzes.service.QuestionService;
 import ru.asmanov.quizzes.service.QuizService;
+import ru.asmanov.quizzes.service.ResultService;
 
 import java.util.*;
 
@@ -35,6 +37,8 @@ class QuizControllerTest {
     private QuestionService questionService;
     @MockBean
     private QuizService quizService;
+    @MockBean
+    private ResultService resultService;
 
     @Test
     public void contextLoad() {
@@ -121,5 +125,36 @@ class QuizControllerTest {
 
     }
 
+    @Test
+    void quizResultPageTest() throws Exception {
+        Quiz quiz = new Quiz(0L, "TestQuiz", "TestDescription1");
+        Map<Integer, String> answersForQuestion1 = new HashMap<>();
+        answersForQuestion1.put(1, "TrueAnswer1");
+        answersForQuestion1.put(2, "FalseAnswer1");
+        Map<Integer, String> answersForQuestion2 = new HashMap<>();
+        answersForQuestion2.put(1, "FalseAnswer2");
+        answersForQuestion2.put(2, "TrueAnswer2");
+        Question question1 = new Question(1L, "TestQuestion1", 1, quiz, answersForQuestion1);
+        Question question2 = new Question(2L, "TestQuestion2", 2, quiz, answersForQuestion2);
+        question1.setPickedAnswer(new PickedAnswer(1));
+        question2.setPickedAnswer(new PickedAnswer(1));
+        Set<Question> questions = Set.of(question1, question2);
+        quiz.setQuestions(questions);
 
+        when(quizService.findQuizById(0L)).thenReturn(quiz);
+        when(questionService.findQuestionsByQuizId(0L)).thenReturn(new ArrayList<>(questions));
+        when(resultService.countScore(0L)).thenReturn("1/2");
+
+        this.mockMvc.perform(get("/0/result")).andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(view().name("QuizResult"))
+                .andExpect(content().string(containsString("1/2")))
+                .andExpect(content().string(containsString("TestQuestion1")))
+                .andExpect(content().string(containsString("FalseAnswer1")))
+                .andExpect(content().string(containsString("TrueAnswer1")))
+                .andExpect(content().string(containsString("TestQuestion2")))
+                .andExpect(content().string(containsString("TrueAnswer2")))
+                .andExpect(content().string(containsString("FalseAnswer2")));
+
+    }
 }

@@ -1,6 +1,7 @@
 package ru.asmanov.quizzes.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -8,12 +9,12 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import ru.asmanov.quizzes.model.PickedAnswerMapWrapper;
+import ru.asmanov.quizzes.model.PickedAnswer;
 import ru.asmanov.quizzes.model.Question;
 import ru.asmanov.quizzes.model.Quiz;
-import ru.asmanov.quizzes.repository.AnswerMapDao;
 import ru.asmanov.quizzes.service.QuestionService;
 import ru.asmanov.quizzes.service.QuizService;
+import ru.asmanov.quizzes.service.ResultService;
 
 import javax.validation.Valid;
 import java.util.*;
@@ -28,13 +29,15 @@ import java.util.*;
 public class QuizController {
     private final QuizService quizService;
     private final QuestionService questionService;
-    private AnswerMapDao answerMapDao;
+    private final ResultService resultService;
 
     @Autowired
-    public QuizController(QuizService quizService, QuestionService questionService) {
+    public QuizController(QuizService quizService,
+                          QuestionService questionService,
+                          ResultService resultService) {
         this.quizService = quizService;
         this.questionService = questionService;
-        this.answerMapDao = new AnswerMapDao();
+        this.resultService = resultService;
     }
 
     /* ---- Quizzes ---- */
@@ -96,12 +99,8 @@ public class QuizController {
     public String quizPassingForm(@PathVariable("id") Long id, Model model) {
         Quiz quiz = quizService.findQuizById(id);
         List<Question> questionList = questionService.findQuestionsByQuizId(id);
-        Map<Long, Integer> pickedAnswers = new HashMap<>();
-        for (Question q : questionList) {
-            pickedAnswers.put(q.getId(), 0);
-        }
-        answerMapDao.setAnswerMap(pickedAnswers);
-        PickedAnswerMapWrapper pickedMapWrapper = answerMapDao.getPickedAnswerMapWrapper();
+        PickedAnswerMapWrapper pickedMapWrapper = new PickedAnswerMapWrapper();
+        pickedMapWrapper.initializeAnswerMap(questionList);
         model.addAttribute("pickedMapWrapper", pickedMapWrapper);
         model.addAttribute("quiz", quiz);
         model.addAttribute("questionsList", questionList);
@@ -110,8 +109,8 @@ public class QuizController {
 
     @PostMapping("/{id}/submit")
     public String submitQuizResult(@PathVariable("id") Long id,
-                                   @ModelAttribute PickedAnswerMapWrapper pickedAnswerMapWrapper) {
-        answerMapDao.setPickedAnswerMapWrapper(pickedAnswerMapWrapper);
+                                   @ModelAttribute PickedAnswerMapWrapper pickedMapWrapper) {
+        resultService.addPickedAnswerFromMap(pickedMapWrapper.getPickedAnswerMap(), id);
         return String.format("redirect:/%s/result", id);
     }
 
@@ -120,23 +119,39 @@ public class QuizController {
                                  Model model) {
         Quiz quiz = quizService.findQuizById(id);
         List<Question> questionList = questionService.findQuestionsByQuizId(id);
-        Map<Long, Integer> pickedAnswersMap = answerMapDao.getAnswerMap();
-        Map<Question, Integer> resultMap = new LinkedHashMap<>();
 
-        int rightAnswers = 0;
 
-        for (Question question : questionList) {
-            Integer pickedOption = pickedAnswersMap.get(question.getId());
-            if (pickedOption.equals(question.getRightAnswerNumber())) {
-                rightAnswers++;
-            }
-            resultMap.put(question, pickedOption);
-        }
-        String score = rightAnswers + "/" + questionList.size();
+        String score = resultService.countScore(id);
 
         model.addAttribute("quiz", quiz);
+        model.addAttribute("questionsList", questionList);
         model.addAttribute("score", score);
-        model.addAttribute("resultQuestionsMap", resultMap);
         return "QuizResult";
+    }
+
+    /**
+     * Map wrapper which used to transfer map into view (thymeleaf can't work with
+     * only map without wrapper)
+     */
+    @Component
+    static class PickedAnswerMapWrapper {
+        private Map<Long, Integer> pickedAnswerMap;
+        public PickedAnswerMapWrapper() {
+        }
+
+        public void initializeAnswerMap(List<Question> questionList) {
+            this.pickedAnswerMap = new HashMap<>();
+            for (Question q : questionList) {
+                pickedAnswerMap.put(q.getId(), 0);
+            }
+        }
+
+        public void setPickedAnswerMap(Map<Long, Integer> pickedAnswerMap) {
+            this.pickedAnswerMap = pickedAnswerMap;
+        }
+
+        public Map<Long, Integer> getPickedAnswerMap() {
+            return pickedAnswerMap;
+        }
     }
 }

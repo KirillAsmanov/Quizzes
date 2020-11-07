@@ -45,18 +45,18 @@
          </div>
       </div>
       <div id="Layer5">
-         <div id="Layer10" th:each="answeredQuestion,i: ${resultQuestionsMap.entrySet()}">
+         <div id="Layer10" th:each="question : ${questionsList}">
             <div id="Layer12">
                <div id="wb_Text7">
-                  <span style="color:#696969;font-family:Arial;font-size:20px;"><strong th:text="${answeredQuestion.getKey().task}"></strong></span>
+                  <span style="color:#696969;font-family:Arial;font-size:20px;"><strong th:text="${question.task}"></strong></span>
                </div>
             </div>
-            <div id="layer800" th:each="answer : ${answeredQuestion.getKey().answers.entrySet()}">
+            <div id="layer800" th:each="answer : ${question.answers}">
                <div id="Layer13">
-                  <div id="wb_IconFont1" th:if="${answer.getKey()} == ${answeredQuestion.getKey().rightAnswerNumber}">
+                  <div id="wb_IconFont1" th:if="${answer.getKey()} == ${question.rightAnswerNumber}">
                      <div id="IconFont1"><i class="material-icons">&#xe86c;</i></div></div>
-                  <div id="wb_IconFont2" th:if="(${answer.getKey()} == ${answeredQuestion.getValue()})">
-                     <div id="IconFont2" th:if="${answer.getKey()} != ${answeredQuestion.getKey().rightAnswerNumber}"><i class="material-icons">&#xe5c9;</i></div></div>
+                  <div id="wb_IconFont2" th:if="${answer.getKey()} == ${question.pickedAnswer.pickedAnswerNumber}">
+                     <div id="IconFont2" th:if="${answer.getKey()} != ${question.rightAnswerNumber}"><i class="material-icons">&#xe5c9;</i></div></div>
                </div>
                <div id="Layer14">
                   <div id="wb_Text8">
@@ -70,6 +70,15 @@
          <div id="Layer11_Container">
             <hr id="DividerLine2">
             <a id="Button4" th:href="@{/}">Завершить</a>
+         </div>
+      </div>
+   </div>
+   <div id="wb_Divider2">
+      <div id="Divider2-overlay"></div>
+      <div id="Divider2">
+         <div class="row">
+            <div class="col-1">
+            </div>
          </div>
       </div>
    </div>

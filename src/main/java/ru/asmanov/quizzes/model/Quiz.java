@@ -1,14 +1,14 @@
 package ru.asmanov.quizzes.model;
 
-import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
-import org.hibernate.validator.constraints.NotBlank;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 
 /**
@@ -42,8 +42,25 @@ public class Quiz {
     public Quiz() {
     }
 
-    public Quiz(String name, String description) {
+    public Quiz(Long id, String name, String description) {
+        this.id = id;
         this.name = name;
         this.description = description;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Quiz quiz = (Quiz) o;
+        return Objects.equals(id, quiz.id) &&
+                Objects.equals(name, quiz.name) &&
+                Objects.equals(description, quiz.description) &&
+                Objects.equals(questions, quiz.questions);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, name, description);
     }
 }
