@@ -11,6 +11,9 @@ import org.springframework.test.web.servlet.MockMvc;
 import ru.asmanov.quizzes.model.PickedAnswer;
 import ru.asmanov.quizzes.model.Question;
 import ru.asmanov.quizzes.model.Quiz;
+import ru.asmanov.quizzes.repository.PickedAnswerRepository;
+import ru.asmanov.quizzes.repository.QuestionRepository;
+import ru.asmanov.quizzes.repository.QuizRepository;
 import ru.asmanov.quizzes.service.QuestionService;
 import ru.asmanov.quizzes.service.QuizService;
 import ru.asmanov.quizzes.service.ResultService;
@@ -39,6 +42,12 @@ class QuizControllerTest {
     private QuizService quizService;
     @MockBean
     private ResultService resultService;
+    @MockBean
+    private QuizRepository quizRepository;
+    @MockBean
+    private QuestionRepository questionRepository;
+    @MockBean
+    private PickedAnswerRepository pickedAnswerRepository;
 
     @Test
     public void contextLoad() {
